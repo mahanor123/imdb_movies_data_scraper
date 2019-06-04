@@ -35,7 +35,7 @@ def scrape_top_list():
         dic_list.append(dic)
     return dic_list
 top_movies = (scrape_top_list()) 
-# pprint.pprint (top_movies)
+pprint.pprint (top_movies)
 
 # Task2
 def group_by_year(movie):
@@ -47,13 +47,13 @@ def group_by_year(movie):
         dat[year].append(i)
     return dat
 movies_by_year  = (group_by_year(top_movies))
-# pprint .pprint (movies_by_year )
+pprint .pprint (movies_by_year )
 
 # Task3 
 def group_by_decade(movies):
     for year in movies:
         json_year = json.loads(year)
-        # print (json_year)
+        print (json_year)
         y = json_year['year']
         s = y%10
         decede = y-s
@@ -74,8 +74,6 @@ def scrape_movie_cast(movie_caste_url, id):
         filepath =  pathlib.Path(filename)
         if filepath.exists():
             with open (filename, 'r') as f:
-            # with open('/home/rupa/Documents/we_screping/movie_cast/'+ filename, 'r') as f:
-                # print ("file exsits hai")os.path.exists('/home/rupa/Documents/we_screping/movie_cast/'+
                 file_read = f.read()
                 # print (f)
                 # print ("file hai")
@@ -122,17 +120,17 @@ def movie_list_details_10(movie_list):
                 break    
         fileName = 'MovieName/'+movieId + '.json'
         filepath =  pathlib.Path(fileName)
-        # print (filepath)
+        print (filepath)
         if filepath:
-            # print ("file hai")
+            print ("file hai")
             with open(fileName, 'r') as f:
                 f = f.read()
                 data= json.loads(f)
-                # print(f)
+                print(f)
             return f
                 
         else:
-            # print  ("nahi hai")  
+            print  ("nahi hai")  
             resp = requests.get(movie_list)
             soup1 = BeautifulSoup(resp.text,"html.parser")
             name = soup1.find('div', class_='title_wrapper').h1.get_text()
@@ -180,7 +178,7 @@ def movie_list_details_10(movie_list):
             # Task13
             caste = scrape_movie_cast(url,movieId)
             dic['caste'] = caste
-            # print caste
+            print caste
             # Task 8
             with open(fileName, 'w') as file1:
                 file1.write(json.dumps(dic, indent=1))  
@@ -191,7 +189,7 @@ def movie_list_details_10(movie_list):
 def get_all_movie_list_details(moviesList):
     # Task9
     ramdom_time = random.randint(1,3)
-    # print (ramdom_time)
+    print (ramdom_time)
     t = time.sleep(ramdom_time)
     listOFmovie = []
     for i in moviesList[:250]:
@@ -200,7 +198,7 @@ def get_all_movie_list_details(moviesList):
         listOFmovie .append(movieDetailCall)
     return  listOFmovie 
 data=get_all_movie_list_details(top_movies)
-# pprint.pprint(data)
+pprint.pprint(data)
 
 # Task6
 def analyse_movies_language(movies_language_list):
@@ -218,7 +216,7 @@ def analyse_movies_language(movies_language_list):
     return language_dic
 
 movies_language_count = analyse_movies_language(data)
-# pprint.pprint (movies_language_count )
+pprint.pprint (movies_language_count )
 
 # #  Task7
 def  analyse_movies_directors(movies_detail_list):
@@ -237,7 +235,7 @@ def  analyse_movies_directors(movies_detail_list):
     return movie_directors_dic
 
 movieDirectorCount =  analyse_movies_directors(data)  
-# pprint.pprint (movieDirectorCount)
+pprint.pprint (movieDirectorCount)
 
 
 # Task10
@@ -260,7 +258,7 @@ def analyse_language_and_directors(movie_list):
                 if dirtecor in  detailDirector:
                     detailDirector[dirtecor][lang] += 1                
     return  detailDirector 
-# pprint.pprint (analyse_language_and_directors(data))
+pprint.pprint (analyse_language_and_directors(data))
 
 
 # Task 11
@@ -277,42 +275,10 @@ def analyse_movies_genre(movie_list):
             else:
                 gerne_dic [data] += 1 
     return  gerne_dic 
-# pprint.pprint (analyse_movies_genre(data)) 
+pprint.pprint (analyse_movies_genre(data)) 
 
 
-# Task14
-s = {}
-def analyse_co_actors(movies_list):
-    co_actor = {}
-    for movie in movies_list:
-        json_data = json.loads(movie)
-        json_caste = json_data['caste']
-        for i  in json_caste[:1]:
-            caste_ids = i['imbd id']
-            # print (caste_ids)
-            caste_names = i['imbd name']
-            if caste_ids in  co_actor :
-                for cast in json_caste[1:]:
-                    cast_id = cast['imbd name']
-                    # print (cast_id)
-                    if cast_id in co_actor[caste_ids]['frequent_co_actors']:
-                            num_of_movies = cast
-                            num_of_movies['num_movies']+= 1
-                    else:
-                            num_of_movie = cast
-                            num_of_movie['num_movies'] = 1
-                            dic['frequent_co_actors'].append(num_of_movie)   
-            else:
-                    co_actor[cast_ids] = {}
-                    dic = co_actor[caste_ids]
-                    dic['name'] =caste_names
-                    dic['frequent_co_actors'] = []
-                    num_of_movies =cast
-                    num_of_movies['num_movies'] = 1
-                    dic['frequent_co_actors'].append(num_of_movie)
-	return co_actor             
 
-# pprint .pprint(analyse_co_actors(data)) 
      
 # Task15
 def analyse_actors(movies_detail_list):
@@ -331,4 +297,4 @@ def analyse_actors(movies_detail_list):
                 dic['name'] = caste_name
                 dic['num_movie'] = 1
     return  actors_total_movie     
-# pprint. pprint (analyse_actors(data))
+pprint. pprint (analyse_actors(data))
